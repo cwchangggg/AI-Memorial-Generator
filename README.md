@@ -8,20 +8,15 @@ An AI-powered web application for generating personalized memorial tribute video
 
 - Fill in your tribute message
 
-
 - Upload a voice file (.wav / .mp3)
-
 
 - Click "Generate Video" and watch real-time progress and result
 
 - 個人化追思文字
 
-
 - 上傳聲音檔（.wav / .mp3）
 
-
 - 點擊「生成影片」，並即時觀看進度與結果
-
 
 ---
 ## Installation 安裝方式
