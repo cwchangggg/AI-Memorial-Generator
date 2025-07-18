@@ -25,24 +25,26 @@ An AI-powered web application for generating personalized memorial tribute video
 ```bash
 git clone https://github.com/cwchangggg/AI-Memorial-Generator
 cd AI-Memorial-Generator
+```
 
 ### 2. Set up environment 建立環境
 ```bash
 conda create -n memorial_env python=3.10
 conda activate memorial_env
 pip install -r requirements.txt
+```
 
 ### 3. Setup media folder 建立媒體資料夾
 ```bash
 mkdir media
-
+```
 ### 4. Run Django server 執行伺服器
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 python manage.py createsuperuser   # optional
 python manage.py runserver
-
+```
 Then open your browser and visit:
 http://127.0.0.1:8000 
 
