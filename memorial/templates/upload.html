@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>哀悼影片生成</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #f6e27a, #d6a95c, #b67b2e);
+      min-height: 100vh;
+    }
+    .btn-dark {
+      background-color: #2e2e2e;
+    }
+    .btn-dark:hover {
+      background-color: #4a4a4a;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center text-gray-800">
+
+  <div class="max-w-xl w-full p-6 bg-white/90 rounded-2xl shadow-2xl">
+    <h1 class="text-3xl font-bold text-center mb-6 text-gray-900">哀悼影片生成</h1>
+
+    {% if error %}
+      <div class="text-red-600 text-center mb-4">{{ error }}</div>
+    {% endif %}
+
+
+    <form id="uploadForm" class="space-y-4">
+      <textarea name="text" id="text" rows="3" placeholder="請輸入要合成的文字"
+        class="w-full p-3 border rounded-xl resize-none"></textarea>
+
+      <input type="file" name="audio" accept="audio/*" required
+        class="w-full p-2 border rounded-xl">
+
+      <button type="submit"
+        class="w-full bg-gray-800 text-white py-2 rounded-xl hover:bg-gray-700 transition">開始生成影片</button>
+    </form>
+
+    <div id="progress" class="mt-6 space-y-2 text-center text-sm text-gray-600"></div>
+    <div id="videoOutput" class="mt-4 text-center"></div>
+
+    <div class="mt-10 flex justify-between text-sm text-blue-600">
+      {% if user.is_authenticated %}
+        <span>👤 {{ user.username }}</span>
+        <a href="/logout">登出</a>
+        <a href="/my-videos" class="text-blue-500 underline">我的影片</a>
+      {% else %}
+        <a href="/login">登入</a>
+        <a href="/register">註冊</a>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <script>
+    document.getElementById("uploadForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const formData = new FormData(form);
+      const progressDiv = document.getElementById("progress");
+      const videoOutput = document.getElementById("videoOutput");
+
+      progressDiv.innerHTML = "<p>開始上傳與處理...</p>";
+      videoOutput.innerHTML = "";
+
+      const response = await fetch("/", {
+        method: "POST",
+        body: formData
+      });
+
+      if (!response.ok) {
+        progressDiv.innerHTML = "<p class='text-red-500'>發生錯誤</p>";
+        return;
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+
+        chunk.split("data: ").forEach(line => {
+          if (!line.trim()) return;
+
+          if (line.includes("完成")) {
+            progressDiv.innerHTML += "<p class='text-green-600'>影片生成完成</p>";
+            videoOutput.innerHTML = `
+              <video controls class="rounded-xl shadow-md w-full mt-4">
+                <source src="/media/output.mp4" type="video/mp4">
+              </video>
+              <div class="mt-2"><a class="text-blue-600 underline" href="/media/output.mp4" download>⬇️ 下載影片</a></div>
+            `;
+          } else {
+            progressDiv.innerHTML += `<p>${line}</p>`;
+          }
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>

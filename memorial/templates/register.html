@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>註冊</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+  <form method="POST" class="bg-white p-8 rounded-2xl shadow-lg w-80 space-y-4">
+    {% csrf_token %}
+    <h2 class="text-xl font-bold text-center">註冊帳號</h2>
+    {% for message in messages %}
+      <div class="text-red-600 text-sm">{{ message }}</div>
+    {% endfor %}
+    <input type="text" name="username" placeholder="帳號" required class="w-full p-2 border rounded-xl">
+    <input type="password" name="password" placeholder="密碼" required class="w-full p-2 border rounded-xl">
+    <button class="w-full bg-green-500 text-white py-2 rounded-xl">註冊並登入</button>
+    <p class="text-center text-sm text-gray-500">已有帳號？<a href="/login" class="text-blue-600">前往登入</a></p>
+  </form>
+</body>
+</html>

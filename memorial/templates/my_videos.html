@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>我的影片</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+  <div class="max-w-4xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold">我的影片紀錄</h1>
+      <a href="/" class="text-blue-600">回上傳頁面</a>
+    </div>
+
+    {% if videos %}
+      <div class="space-y-6">
+        {% for video in videos %}
+          <div class="bg-white p-4 rounded-2xl shadow">
+            <p class="text-sm text-gray-500 mb-2">{{ video.created_at|date:"Y-m-d H:i" }}</p>
+            <p class="mb-2 text-gray-800">{{ video.text|truncatechars:80 }}</p>
+            <video src="/{{ video.video_path }}" controls class="w-full rounded-lg"></video>
+            <div class="text-right mt-2">
+              <a href="/{{ video.video_path }}" download class="text-blue-600 text-sm">下載</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-gray-600">目前沒有影片，趕快上傳吧！</p>
+    {% endif %}
+  </div>
+</body>
+</html>
