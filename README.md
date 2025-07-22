@@ -1,4 +1,4 @@
-# Memorial Video Generator 哀悼影片生成平台
+# AI Memorial Video Generator 哀悼影片生成平台
 
 An AI-powered web application for generating personalized memorial tribute videos from voice and text.  
 一個透過 AI 技術，將聲音與文字轉換成個人化哀悼影片的網頁應用程式。
