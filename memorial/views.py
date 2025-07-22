@@ -37,7 +37,7 @@ def upload_and_generate(request):
                 yield f"data: {output}\n\n"
 
             if os.path.exists(video_path):
-                # ✅ 存入資料庫
+                # 存入資料庫
                 GeneratedVideo.objects.create(
                     user=request.user,
                     text=text,
