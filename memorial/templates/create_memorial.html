@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>建立數位靈堂</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+  <div class="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-lg space-y-4">
+
+    <h1 class="text-2xl font-bold text-center">建立數位靈堂</h1>
+
+    <form method="POST" enctype="multipart/form-data" class="space-y-4">
+      {% csrf_token %}
+
+      <input type="text" name="title" placeholder="紀念頁標題" required class="w-full p-2 border rounded-lg">
+
+      <textarea name="biography" rows="4" placeholder="請輸入生平..." class="w-full p-2 border rounded-lg"></textarea>
+
+      <label class="block">封面照片：</label>
+      <input type="file" name="cover_photo" accept="image/*" class="w-full border p-2 rounded-lg">
+
+      <label class="block">選擇一支紀念影片：</label>
+      <select name="memorial_video" class="w-full border p-2 rounded-lg">
+        <option value="">（可不選）</option>
+        {% for video in videos %}
+          <option value="{{ video.id }}">{{ video.text|truncatechars:30 }}</option>
+        {% endfor %}
+      </select>
+
+      <button class="w-full bg-blue-600 text-white py-2 rounded-lg">建立紀念頁</button>
+    </form>
+
+    <div class="text-center mt-4">
+      <a href="/" class="text-blue-600">← 回首頁</a>
+    </div>
+
+  </div>
+</body>
+</html>

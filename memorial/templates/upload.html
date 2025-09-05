@@ -46,6 +46,8 @@
         <span>👤 {{ user.username }}</span>
         <a href="/logout">登出</a>
         <a href="/my-videos" class="text-blue-500 underline">我的影片</a>
+        <a href="/memorial/create/" class="text-blue-600 underline">建立紀念頁</a>
+
       {% else %}
         <a href="/login">登入</a>
         <a href="/register">註冊</a>
@@ -87,7 +89,7 @@
         chunk.split("data: ").forEach(line => {
           if (!line.trim()) return;
 
-          if (line.includes("完成")) {
+          if (line.includes("影片完成")) {
             progressDiv.innerHTML += "<p class='text-green-600'>影片生成完成</p>";
             videoOutput.innerHTML = `
               <video controls class="rounded-xl shadow-md w-full mt-4">

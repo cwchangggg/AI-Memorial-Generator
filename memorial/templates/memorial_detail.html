@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ page.title }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-yellow-50 p-6">
+  <div class="mb-4 text-center">
+    <button onclick="copyLink()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+       複製分享連結
+    </button>
+    <p id="copyMsg" class="text-green-600 mt-2 hidden"> 已複製！</p>
+  </div>
+  <script>
+    function copyLink() {
+      const link = window.location.href;
+      navigator.clipboard.writeText(link).then(() => {
+        document.getElementById("copyMsg").classList.remove("hidden");
+        setTimeout(() => {
+          document.getElementById("copyMsg").classList.add("hidden");
+        }, 2000);
+      });
+    }
+  </script>
+
+
+  <div class="max-w-3xl mx-auto bg-white p-6 rounded-2xl shadow-xl">
+
+    <h1 class="text-3xl font-bold mb-4">{{ page.title }}</h1>
+
+    {% if page.cover_photo %}
+      <img src="/media/{{ page.cover_photo }}" class="w-full max-h-96 object-cover rounded-lg mb-4">
+    {% endif %}
+
+    
+    {% if page.memorial_video %}
+      <video controls class="w-full rounded-lg">
+        <source src="/{{ page.memorial_video.video_path }}" type="video/mp4">
+      </video>
+    {% endif %}
+      <p class="text-gray-700 mb-4 whitespace-pre-line"> 生平: {{  page.biography }}</p>
+    {% if is_owner %}
+      <div class="mt-6 text-right">
+        <a href="#" class="text-blue-600"> " " </a> <!--編輯（開發中）-->
+      </div>
+    {% endif %}
+
+      
+
+    <div class="mt-10 border-t pt-6">
+      <h2 class="text-2xl font-bold mb-4"> 獻花區</h2>
+      
+
+      <form method="POST" class="space-y-3 mb-6">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="你的名字" required class="w-full p-2 border rounded-lg">
+        
+        <select name="flower_type" class="w-full border p-2 rounded-lg" required>
+          <option value="">選擇花種</option>
+          <option>白玫瑰</option>
+          <option>百合</option>
+          <option>向日葵</option>
+          <option>康乃馨</option>
+          <option>菊花</option>
+        </select>
+
+        <textarea name="message" rows="2" placeholder="留言（可選）" class="w-full p-2 border rounded-lg"></textarea>
+
+        <button class="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600">獻花</button>
+      </form>
+
+      <div id="flowerDisplay" class="flex flex-wrap gap-2 mt-4 text-3xl">
+              {% for flower in flowers %}
+                <span>{{ flower.emoji }}</span>
+              {% endfor %}
+            </div>
+
+      <div class="space-y-4">
+        {% for flower in flowers %}
+          <div class="bg-gray-100 p-4 rounded-lg shadow">
+            <p class="font-semibold">{{ flower.name }} 獻上 {{ flower.flower_type }}</p>
+            {% if flower.message %}
+              <p class="text-gray-600 mt-1">「{{ flower.message }}」</p>
+            {% endif %}
+            <p class="text-sm text-gray-500 mt-1">{{ " " }}</p>
+          </div>
+        {% empty %}
+          <p class="text-gray-500">目前尚未有人獻花。</p>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
