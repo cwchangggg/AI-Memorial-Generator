@@ -97,6 +97,7 @@
               </video>
               <div class="mt-2"><a class="text-blue-600 underline" href="/media/output.mp4" download>下載影片</a></div>
             `;
+            showToast("影片生成完成，可以觀看囉！");
           } else {
             progressDiv.innerHTML += `<p>${line}</p>`;
           }
@@ -104,6 +105,28 @@
       }
     });
   </script>
+<!-- Toast Notification -->
+<div id="toast"
+     class="hidden fixed bottom-10 right-10 bg-green-600 text-white px-28 py-12 rounded-lg shadow-lg transition-opacity">
+   影片生成完成
+</div>
 
+<script>
+  function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.remove("hidden");
+    toast.classList.add("opacity-100");
+
+    setTimeout(() => {
+      toast.classList.add("opacity-0");
+    }, 3000);
+
+    setTimeout(() => {
+      toast.classList.add("hidden");
+      toast.classList.remove("opacity-0");
+    }, 3500);
+  }
+</script>
 </body>
 </html>
