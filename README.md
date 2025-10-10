@@ -2,6 +2,7 @@
 
 An AI-powered web application for generating personalized memorial tribute videos from voice and text.  
 一個透過 AI 技術，將聲音與文字轉換成個人化哀悼影片的網頁應用程式。
+<img width="948" height="713" alt="image" src="https://github.com/user-attachments/assets/dc6e1674-2f3b-4b39-97a0-c873a78a64cf" />
 
 ---
 ## How to use
